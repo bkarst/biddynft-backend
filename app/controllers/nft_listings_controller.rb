@@ -87,6 +87,6 @@ class NftListingsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def nft_listing_params
-      params.require(:nft_listing).permit(:title, :image_url, :author_image_url, :auction_end_time, :auction_start_time, :reserve_price, :minimum_bid, :listing_type, :price)
+      params.require(:nft_listing).permit(:title, :image_url, :author_image_url, :auction_end_time, :auction_start_time, :reserve_price, :minimum_bid, :listing_type, :price, :description)
     end
 end

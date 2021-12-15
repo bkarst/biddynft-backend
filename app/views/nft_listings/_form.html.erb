@@ -38,17 +38,22 @@
 
   <div class="field">
     <%= form.label :reserve_price %>
-    <%= form.number_field :reserve_price, id: :nft_listing_reserve_price %>
+    <%= form.text_field :reserve_price, id: :nft_listing_reserve_price %>
   </div>
 
   <div class="field">
     <%= form.label :minimum_bid %>
-    <%= form.number_field :minimum_bid, id: :nft_listing_minimum_bid %>
+    <%= form.text_field :minimum_bid, id: :nft_listing_minimum_bid %>
   </div>
 
   <div class="field">
     <%= form.label :price %>
-    <%= form.number_field :price, id: :nft_listing_price %>
+    <%= form.text_field :price, id: :nft_listing_price %>
+  </div>
+
+  <div class="field">
+    <%= form.label :description %>
+    <%= form.text_field :description, id: :nft_listing_price %>
   </div>
 
   <div class="actions">

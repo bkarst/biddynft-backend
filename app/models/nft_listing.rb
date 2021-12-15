@@ -7,8 +7,10 @@ class NftListing
   field :author_image_url, type: String
   field :auction_end_time, type: DateTime
   field :auction_start_time, type: DateTime
-  field :reserve_price, type: Integer
-  field :minimum_bid, type: Integer
+  field :reserve_price, type: Float
+  field :minimum_bid, type: Float
   field :listing_type, type: String
-  field :price, type: Integer
+  field :price, type: Float
+  field :currency, type: String, :default => 'XRP'
+  field :description, type: String
 end
