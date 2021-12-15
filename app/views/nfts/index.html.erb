@@ -1,0 +1,33 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Nfts</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Title</th>
+      <th>Image url</th>
+      <th>Supply</th>
+      <th>Author image url</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @nfts.each do |nft| %>
+      <tr>
+        <td><%= nft.title %></td>
+        <td><%= nft.image_url %></td>
+        <td><%= nft.supply %></td>
+        <td><%= nft.author_image_url %></td>
+        <td><%= link_to 'Show', nft %></td>
+        <td><%= link_to 'Edit', edit_nft_path(nft) %></td>
+        <td><%= link_to 'Destroy', nft, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Nft', new_nft_path %>

@@ -1,0 +1,57 @@
+<%= form_with(model: nft_listing, local: true) do |form| %>
+  <% if nft_listing.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(nft_listing.errors.count, "error") %> prohibited this nft_listing from being saved:</h2>
+
+      <ul>
+      <% nft_listing.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :title %>
+    <%= form.text_field :title, id: :nft_listing_title %>
+  </div>
+
+  <div class="field">
+    <%= form.label :image_url %>
+    <%= form.text_field :image_url, id: :nft_listing_image_url %>
+  </div>
+
+  <div class="field">
+    <%= form.label :author_image_url %>
+    <%= form.text_field :author_image_url, id: :nft_listing_author_image_url %>
+  </div>
+
+  <div class="field">
+    <%= form.label :auction_start_time %>
+    <%= form.datetime_select :auction_start_time, id: :nft_listing_auction_start_time %>
+  </div>
+
+  <div class="field">
+    <%= form.label :auction_end_time %>
+    <%= form.datetime_select :auction_end_time, id: :nft_listing_auction_end_time %>
+  </div>
+
+  <div class="field">
+    <%= form.label :reserve_price %>
+    <%= form.number_field :reserve_price, id: :nft_listing_reserve_price %>
+  </div>
+
+  <div class="field">
+    <%= form.label :minimum_bid %>
+    <%= form.number_field :minimum_bid, id: :nft_listing_minimum_bid %>
+  </div>
+
+  <div class="field">
+    <%= form.label :price %>
+    <%= form.number_field :price, id: :nft_listing_price %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>

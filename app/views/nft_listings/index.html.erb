@@ -1,0 +1,43 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Nft Listings</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Title</th>
+      <th>Image url</th>
+      <th>Author image url</th>
+      <th>Auction end time</th>
+      <th>Auction start time</th>
+      <th>Reserve price</th>
+      <th>Minimum bid</th>
+      <th>Listing type</th>
+      <th>Price</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @nft_listings.each do |nft_listing| %>
+      <tr>
+        <td><%= nft_listing.title %></td>
+        <td><%= nft_listing.image_url %></td>
+        <td><%= nft_listing.author_image_url %></td>
+        <td><%= nft_listing.auction_end_time %></td>
+        <td><%= nft_listing.auction_start_time %></td>
+        <td><%= nft_listing.reserve_price %></td>
+        <td><%= nft_listing.minimum_bid %></td>
+        <td><%= nft_listing.listing_type %></td>
+        <td><%= nft_listing.price %></td>
+        <td><%= link_to 'Show', nft_listing %></td>
+        <td><%= link_to 'Edit', edit_nft_listing_path(nft_listing) %></td>
+        <td><%= link_to 'Destroy', nft_listing, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Nft Listing', new_nft_listing_path %>

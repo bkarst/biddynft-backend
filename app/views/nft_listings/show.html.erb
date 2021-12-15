@@ -1,0 +1,49 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Title:</strong>
+  <%= @nft_listing.title %>
+</p>
+
+<p>
+  <strong>Image url:</strong>
+  <%= @nft_listing.image_url %>
+</p>
+
+<p>
+  <strong>Author image url:</strong>
+  <%= @nft_listing.author_image_url %>
+</p>
+
+<p>
+  <strong>Auction end time:</strong>
+  <%= @nft_listing.auction_end_time %>
+</p>
+
+<p>
+  <strong>Auction start time:</strong>
+  <%= @nft_listing.auction_start_time %>
+</p>
+
+<p>
+  <strong>Reserve price:</strong>
+  <%= @nft_listing.reserve_price %>
+</p>
+
+<p>
+  <strong>Minimum bid:</strong>
+  <%= @nft_listing.minimum_bid %>
+</p>
+
+<p>
+  <strong>Listing type:</strong>
+  <%= @nft_listing.listing_type %>
+</p>
+
+<p>
+  <strong>Price:</strong>
+  <%= @nft_listing.price %>
+</p>
+
+<%= link_to 'Edit', edit_nft_listing_path(@nft_listing) %> |
+<%= link_to 'Back', nft_listings_path %>

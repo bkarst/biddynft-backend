@@ -1,0 +1,24 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Title:</strong>
+  <%= @nft.title %>
+</p>
+
+<p>
+  <strong>Image url:</strong>
+  <%= @nft.image_url %>
+</p>
+
+<p>
+  <strong>Supply:</strong>
+  <%= @nft.supply %>
+</p>
+
+<p>
+  <strong>Author image url:</strong>
+  <%= @nft.author_image_url %>
+</p>
+
+<%= link_to 'Edit', edit_nft_path(@nft) %> |
+<%= link_to 'Back', nfts_path %>
