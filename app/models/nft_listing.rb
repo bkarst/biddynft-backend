@@ -2,6 +2,7 @@ class NftListing
   include Mongoid::Document
   include Mongoid::Timestamps
   include Mongoid::Attributes::Dynamic
+  has_many :bids
   field :title, type: String
   field :image_url, type: String
   field :author_image_url, type: String
