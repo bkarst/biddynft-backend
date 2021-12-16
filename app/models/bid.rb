@@ -1,6 +1,8 @@
 class Bid
   include Mongoid::Document
   include Mongoid::Timestamps
-  field :title, type: String
-  field :body, type: String
+  field :belongs_to, type: NftListing
+  field :max_bid, type: Float
+  field :email, type: String
+  field :xrp_address, type: String
 end

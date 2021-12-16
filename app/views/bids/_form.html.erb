@@ -12,13 +12,23 @@
   <% end %>
 
   <div class="field">
-    <%= form.label :title %>
-    <%= form.text_field :title, id: :bid_title %>
+    <%= form.label :belongs_to %>
+    <%= form.text_field :belongs_to, id: :bid_belongs_to %>
   </div>
 
   <div class="field">
-    <%= form.label :body %>
-    <%= form.text_area :body, id: :bid_body %>
+    <%= form.label :amount %>
+    <%= form.text_field :amount, id: :bid_amount %>
+  </div>
+
+  <div class="field">
+    <%= form.label :email %>
+    <%= form.text_field :email, id: :bid_email %>
+  </div>
+
+  <div class="field">
+    <%= form.label :xrp_address %>
+    <%= form.text_field :xrp_address, id: :bid_xrp_address %>
   </div>
 
   <div class="actions">

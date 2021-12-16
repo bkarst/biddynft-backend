@@ -17,7 +17,7 @@ class BidsControllerTest < ActionDispatch::IntegrationTest
 
   test "should create bid" do
     assert_difference('Bid.count') do
-      post bids_url, params: { bid: { body: @bid.body, title: @bid.title } }
+      post bids_url, params: { bid: { amount: @bid.amount, belongs_to: @bid.belongs_to, email: @bid.email, xrp_address: @bid.xrp_address } }
     end
 
     assert_redirected_to bid_url(Bid.last)
@@ -34,7 +34,7 @@ class BidsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should update bid" do
-    patch bid_url(@bid), params: { bid: { body: @bid.body, title: @bid.title } }
+    patch bid_url(@bid), params: { bid: { amount: @bid.amount, belongs_to: @bid.belongs_to, email: @bid.email, xrp_address: @bid.xrp_address } }
     assert_redirected_to bid_url(@bid)
   end
 

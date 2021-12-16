@@ -1,13 +1,23 @@
 <p id="notice"><%= notice %></p>
 
 <p>
-  <strong>Title:</strong>
-  <%= @bid.title %>
+  <strong>Belongs to:</strong>
+  <%= @bid.belongs_to %>
 </p>
 
 <p>
-  <strong>Body:</strong>
-  <%= @bid.body %>
+  <strong>Amount:</strong>
+  <%= @bid.amount %>
+</p>
+
+<p>
+  <strong>Email:</strong>
+  <%= @bid.email %>
+</p>
+
+<p>
+  <strong>Xrp address:</strong>
+  <%= @bid.xrp_address %>
 </p>
 
 <%= link_to 'Edit', edit_bid_path(@bid) %> |

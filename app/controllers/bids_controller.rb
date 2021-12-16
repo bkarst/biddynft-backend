@@ -64,6 +64,6 @@ class BidsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def bid_params
-      params.require(:bid).permit(:title, :body)
+      params.require(:bid).permit(:belongs_to, :amount, :email, :xrp_address)
     end
 end
