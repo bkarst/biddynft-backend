@@ -30,7 +30,15 @@ class NftListing
   }
   end
 
-  def minimum_bid_number
+  def auction_ended
+    if Time.now > auction_end_time
+      true
+    else 
+      false
+    end
+  end
+
+  def current_bid
     if bids.length == 0
       if minimum_bid
         minimum_bid
@@ -39,6 +47,19 @@ class NftListing
       end
     else
       bids.sort_by{ |x| x.max_bid }.last.max_bid
+    end
+  end
+
+  def minimum_bid_number
+    block = 5
+    if bids.length == 0
+      if minimum_bid
+        minimum_bid
+      else
+        0
+      end
+    else
+      bids.sort_by{ |x| x.max_bid }.last.max_bid + block
     end
   end
 

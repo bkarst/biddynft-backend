@@ -6,10 +6,12 @@ class Api::BidController < ApplicationController
         @nft_listing = NftListing.find(params[:nft_listing_id])
         # elsif @bid.max_bid && @nft_listing.bids.length > 0
         # end
-        block = 5
-        if @bid.max_bid < @nft_listing.minimum_bid_number + block
+        
+        if @bid.max_bid < @nft_listing.minimum_bid_number 
             @bid.nft_listing = @nft_listing
             render json: {error: "Bid size must must larger."}
+        elsif @nft_listing.auction_ended
+            render json: {error: "The auction has ended."}
         elsif @bid.save
             render :json => @bid
         else
