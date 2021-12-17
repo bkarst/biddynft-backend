@@ -4,13 +4,17 @@ class Api::BidController < ApplicationController
     def create
         @bid = Bid.new(bid_params)
         @nft_listing = NftListing.find(params[:nft_listing_id])
-        @bid.nft_listing = @nft_listing
-          if @bid.save
-            binding.pry
+        # elsif @bid.max_bid && @nft_listing.bids.length > 0
+        # end
+        block = 5
+        if @bid.max_bid < @nft_listing.minimum_bid_number + block
+            @bid.nft_listing = @nft_listing
+            render json: {error: "Bid size must must larger."}
+        elsif @bid.save
             render :json => @bid
-          else
-            render json: @bid.errors, status: :unprocessable_entity 
-          end
+        else
+            render json: @bid.errors, status: :unprocessable_entity
+        end
     end
     
     private
