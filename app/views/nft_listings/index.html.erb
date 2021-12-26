@@ -6,6 +6,7 @@
   <thead>
     <tr>
       <th>Title</th>
+      <th>Currency</th>
       <th>Image url</th>
       <th>Author image url</th>
       <th>Auction end time</th>
@@ -22,6 +23,7 @@
     <% @nft_listings.each do |nft_listing| %>
       <tr>
         <td><%= nft_listing.title %></td>
+        <td><%= nft_listing.currency %></td>
         <td><%= nft_listing.image_url %></td>
         <td><%= nft_listing.author_image_url %></td>
         <td><%= nft_listing.auction_end_time %></td>

@@ -38,7 +38,6 @@ class NftListingsController < ApplicationController
 
   # POST /nft_listings or /nft_listings.json
   def create
-    
     @nft_listing = NftListing.new(nft_listing_params)
     @nft_listing.auction_start_time = start_time_value(nft_listing_params)
     @nft_listing.auction_end_time = end_time_value(nft_listing_params)
@@ -87,6 +86,6 @@ class NftListingsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def nft_listing_params
-      params.require(:nft_listing).permit(:title, :image_url, :author_image_url, :auction_end_time, :auction_start_time, :reserve_price, :minimum_bid, :listing_type, :price, :description)
+      params.require(:nft_listing).permit(:title, :currency, :image_url, :author_image_url, :auction_end_time, :auction_start_time, :reserve_price, :minimum_bid, :listing_type, :price, :description)
     end
 end
