@@ -1,4 +1,16 @@
 Rails.application.routes.draw do
+  namespace :api do
+    resources :poll_campaigns
+  end
+  namespace :api do
+    resources :poll_responses
+  end
+  namespace :api do
+    resources :polls
+  end
+  namespace :api do
+    resources :poll_options
+  end
   resources :nft_listings
   resources :nfts
   resources :bids
