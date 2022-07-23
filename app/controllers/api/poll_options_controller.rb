@@ -4,7 +4,7 @@ class Api::PollOptionsController < ApplicationController
 
   # GET /api/poll_options or /api/poll_options.json
   def index
-    @api_poll_options = Api::PollOption.all
+    @api_poll_options = PollOption.all
   end
 
   # GET /api/poll_options/1 or /api/poll_options/1.json
@@ -13,7 +13,7 @@ class Api::PollOptionsController < ApplicationController
 
   # GET /api/poll_options/new
   def new
-    @api_poll_option = Api::PollOption.new
+    @api_poll_option = PollOption.new
   end
 
   # GET /api/poll_options/1/edit
