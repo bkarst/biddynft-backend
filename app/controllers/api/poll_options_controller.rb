@@ -1,4 +1,5 @@
 class Api::PollOptionsController < ApplicationController
+  skip_before_action :verify_authenticity_token
   before_action :set_api_poll_option, only: %i[ show edit update destroy ]
 
   # GET /api/poll_options or /api/poll_options.json
@@ -21,16 +22,12 @@ class Api::PollOptionsController < ApplicationController
 
   # POST /api/poll_options or /api/poll_options.json
   def create
-    @api_poll_option = Api::PollOption.new(api_poll_option_params)
-
-    respond_to do |format|
-      if @api_poll_option.save
-        format.html { redirect_to @api_poll_option, notice: "Poll option was successfully created." }
-        format.json { render :show, status: :created, location: @api_poll_option }
-      else
-        format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @api_poll_option.errors, status: :unprocessable_entity }
-      end
+    poll = Poll.find(params[:poll_id])
+    @api_poll_option = PollOption.new(description: params[:description], poll: poll)
+    if @api_poll_option.save
+      render :json => @api_poll_option.to_hash
+    else
+      render json: @api_poll_option.errors, status: :unprocessable_entity
     end
   end
 
