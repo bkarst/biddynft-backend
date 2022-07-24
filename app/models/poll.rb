@@ -16,6 +16,18 @@ class Poll
       chain: self.chain,
       duration: self.duration,
       status: self.status,
+      poll_options: poll_options.map{|x| x.to_hash },
+      poll_campaigns: poll_campaigns.map{|x| x.to_hash }
+    }
+  end
+
+  def to_user_hash
+    {
+      id: self.id.to_s, 
+      title: self.title,
+      chain: self.chain,
+      duration: self.duration,
+      status: self.status,
       poll_options: poll_options.map{|x| x.to_hash }
     }
   end

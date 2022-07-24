@@ -2,6 +2,16 @@ class Api::PollsController < ApplicationController
   skip_before_action :verify_authenticity_token
   before_action :set_api_poll, only: %i[ show update destroy ]
 
+
+  def current
+    @api_poll = PollCampaign.where(:start_time.lte => Time.now, :end_time.gte => Time.now)
+    # poll_options = PollOption.where(poll: @api_poll)
+    if @api_poll.first
+      render :json => @api_poll.first.to_user_hash
+    else
+      render :json => {}    
+    end
+  end
   # GET /api/polls
   # GET /api/polls.json
   def index

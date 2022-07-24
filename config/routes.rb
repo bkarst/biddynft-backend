@@ -16,6 +16,7 @@ Rails.application.routes.draw do
   resources :bids
   scope '/api' do
     get '/nft_listings', to: 'api/nft_listing#index'
+    get '/current_poll', to: 'api/polls#current'
     get '/nft_listing/:id', to: 'api/nft_listing#show'
     post '/bid', to: 'api/bid#create'
   end
