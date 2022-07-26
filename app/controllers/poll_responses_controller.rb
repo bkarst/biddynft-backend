@@ -1,5 +1,7 @@
 class PollResponsesController < ApplicationController
+  
   before_action :set_poll_response, only: %i[ show edit update destroy ]
+  
 
   # GET /poll_responses or /poll_responses.json
   def index
@@ -21,17 +23,13 @@ class PollResponsesController < ApplicationController
 
   # POST /poll_responses or /poll_responses.json
   def create
+    
     @poll_response = PollResponse.new(poll_response_params)
-
-    respond_to do |format|
       if @poll_response.save
-        format.html { redirect_to @poll_response, notice: "Poll response was successfully created." }
-        format.json { render :show, status: :created, location: @poll_response }
+        render json: @poll_response
       else
-        format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @poll_response.errors, status: :unprocessable_entity }
+        render json: @poll_response.errors, status: :unprocessable_entity
       end
-    end
   end
 
   # PATCH/PUT /poll_responses/1 or /poll_responses/1.json

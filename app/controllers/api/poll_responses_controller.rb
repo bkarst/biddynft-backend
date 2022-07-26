@@ -1,10 +1,10 @@
 class Api::PollResponsesController < ApplicationController
   before_action :set_api_poll_response, only: %i[ show update destroy ]
-
+  skip_before_action :verify_authenticity_token
   # GET /api/poll_responses
   # GET /api/poll_responses.json
   def index
-    @api_poll_responses = Api::PollResponse.all
+    @api_poll_responses = PollResponse.all
   end
 
   # GET /api/poll_responses/1
@@ -15,10 +15,30 @@ class Api::PollResponsesController < ApplicationController
   # POST /api/poll_responses
   # POST /api/poll_responses.json
   def create
-    @api_poll_response = Api::PollResponse.new(api_poll_response_params)
+    @api_poll_response = PollResponse.new(
+      crypto_address: params[:address],
+      poll_option_id: params[:poll_option_id],
+      poll_campaign_id: params[:poll_campaign_id]
+    )
+    
+    active_poll = PollCampaign.where(:start_time.lte => Time.now, :end_time.gte => Time.now, poll_campaign_id: params[:poll_campaign_id]).first
+    
+    @previous_response = PollResponse.where(
+      crypto_address: params[:address],
+      poll_campaign_id: params[:poll_campaign_id]
+    ).first
 
-    if @api_poll_response.save
-      render :show, status: :created, location: @api_poll_response
+    if @previous_response
+      @previous_response.poll_option_id = params[:poll_option_id]
+      @api_poll_response = @previous_response
+    end
+
+    #check if voted already, 
+    #check to see if the timestamp is within poll start and end time. 
+    if active_poll && @api_poll_response.save
+      render json: @api_poll_response
+    elsif !active_poll
+      render json: {error: "Current Poll not active"}
     else
       render json: @api_poll_response.errors, status: :unprocessable_entity
     end
@@ -43,7 +63,7 @@ class Api::PollResponsesController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_api_poll_response
-      @api_poll_response = Api::PollResponse.find(params[:id])
+      @api_poll_response = PollResponse.find(params[:id])
     end
 
     # Only allow a list of trusted parameters through.

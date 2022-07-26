@@ -25,6 +25,7 @@ class PollCampaign
       duration: duration,
       chain: chain,
       start_time: start_time,
+      end_time: end_time,
       poll: poll.to_user_hash,
     }
   end

@@ -7,8 +7,9 @@ class PollOption
 
   def to_hash
     {
-      description: self.description,
-      poll_order: self.poll_order
+      id: id.to_s,
+      description: description,
+      poll_order: poll_order
   }
   end
 
