@@ -23,7 +23,10 @@ class Api::PollOptionsController < ApplicationController
   # POST /api/poll_options or /api/poll_options.json
   def create
     poll = Poll.find(params[:poll_id])
-    @api_poll_option = PollOption.new(description: params[:description], poll: poll)
+    @api_poll_option = PollOption.new(
+      description: params[:description], 
+      thumbnail_url: params[:thumbnail_url], 
+      poll: poll)
     if @api_poll_option.save
       render :json => @api_poll_option.to_hash
     else

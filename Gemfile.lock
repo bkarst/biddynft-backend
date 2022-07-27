@@ -206,6 +206,7 @@ GEM
       nokogiri (~> 1.8)
 
 PLATFORMS
+  x86_64-darwin-17
   x86_64-darwin-21
   x86_64-linux
 
@@ -231,4 +232,4 @@ DEPENDENCIES
   web-console (>= 3.3.0)
 
 BUNDLED WITH
-   2.2.33
+   2.3.18

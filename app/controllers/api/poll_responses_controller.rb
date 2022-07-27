@@ -21,8 +21,14 @@ class Api::PollResponsesController < ApplicationController
       poll_campaign_id: params[:poll_campaign_id]
     )
     
-    active_poll = PollCampaign.where(:start_time.lte => Time.now, :end_time.gte => Time.now, poll_campaign_id: params[:poll_campaign_id]).first
+    active_poll = PollCampaign.where(
+      :start_time.lte => Time.now, 
+      :end_time.gte => Time.now, 
+      id: params[:poll_campaign_id]
+    ).first
     
+    
+
     @previous_response = PollResponse.where(
       crypto_address: params[:address],
       poll_campaign_id: params[:poll_campaign_id]
@@ -32,6 +38,7 @@ class Api::PollResponsesController < ApplicationController
       @previous_response.poll_option_id = params[:poll_option_id]
       @api_poll_response = @previous_response
     end
+
 
     #check if voted already, 
     #check to see if the timestamp is within poll start and end time. 

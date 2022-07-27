@@ -5,6 +5,7 @@ class Poll
   field :chain, type: String
   field :duration, type: Integer
   field :status, type: Integer
+  field :active, type: Integer, default: 1
 
   has_many :poll_options
   has_many :poll_campaigns
