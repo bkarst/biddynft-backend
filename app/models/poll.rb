@@ -4,8 +4,7 @@ class Poll
   field :title, type: String
   field :chain, type: String
   field :duration, type: Integer
-  field :status, type: Integer
-  field :active, type: Integer, default: 1
+  field :status, type: Integer, default: 1
 
   has_many :poll_options
   has_many :poll_campaigns
@@ -17,7 +16,7 @@ class Poll
       chain: self.chain,
       duration: self.duration,
       status: self.status,
-      poll_options: poll_options.map{|x| x.to_hash },
+      poll_options: poll_options.where(status: 1).map{|x| x.to_hash },
       poll_campaigns: poll_campaigns.map{|x| x.to_hash }
     }
   end
@@ -29,7 +28,7 @@ class Poll
       chain: self.chain,
       duration: self.duration,
       status: self.status,
-      poll_options: poll_options.map{|x| x.to_hash }
+      poll_options: poll_options.where(status: 1).map{|x| x.to_hash }
     }
   end
 

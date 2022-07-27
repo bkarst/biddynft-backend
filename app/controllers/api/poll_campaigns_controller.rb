@@ -20,7 +20,7 @@ class Api::PollCampaignsController < ApplicationController
     poll = Poll.find(params[:poll_id])
   
 
-    conflicts = PollCampaign.where(:start_time.lte => Time.parse(params[:start_time]), :end_time.gte => Time.parse(params[:start_time]))
+    conflicts = PollCampaign.where(status: 1, :start_time.lte => Time.parse(params[:start_time]), :end_time.gte => Time.parse(params[:start_time]))
 
     if conflicts.count === 0
       @api_poll_campaign = PollCampaign.new(poll: poll, duration: params[:duration],

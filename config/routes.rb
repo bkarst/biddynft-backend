@@ -19,6 +19,8 @@ Rails.application.routes.draw do
     get '/current_poll', to: 'api/polls#current'
     get '/nft_listing/:id', to: 'api/nft_listing#show'
     post '/bid', to: 'api/bid#create'
+    post '/inactivate_poll/:id', to: 'api/polls#inactivate'
+    post '/inactivate_poll_option/:id', to: 'api/poll_options#inactivate'
   end
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end

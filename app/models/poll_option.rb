@@ -4,8 +4,8 @@ class PollOption
   belongs_to :poll
   field :description, type: String
   field :thumbnail_url, type: String
+  field :status, type: Integer, default: 1
   field :poll_order, type: Integer
-  field :active, type: Integer, default: 1
 
   def to_hash
     {

@@ -1,21 +1,41 @@
 class Api::PollsController < ApplicationController
   skip_before_action :verify_authenticity_token
-  before_action :set_api_poll, only: %i[ show update destroy ]
+  before_action :set_api_poll, only: %i[ show update destroy inactivate]
 
 
   def current
-    @api_poll = PollCampaign.where(:start_time.lte => Time.now, :end_time.gte => Time.now)
+    @api_poll = PollCampaign.where(status: 1, :start_time.lte => Time.now, :end_time.gte => Time.now).first
+    
     # poll_options = PollOption.where(poll: @api_poll)
-    if @api_poll.first
-      render :json => @api_poll.first.to_user_hash
+    if @api_poll
+      @api_poll.is_current_poll = true
     else
-      render :json => {}    
+      @api_poll = PollCampaign.where(status: 1, :start_time.gte => Time.now).order_by(start_time: :asc).first
+      @api_poll.is_current_poll = false if @api_poll
     end
+    if @api_poll
+      render :json => @api_poll.to_user_hash
+    else
+      render :json => {error: "No upcoming"}
+    end
+    
   end
+
+  def inactivate
+    @api_poll.status = 0
+    @api_poll.save
+    @api_poll.poll_campaigns.each do |poll_campaign|
+      poll_campaign.status = 0
+      poll_campaign.save
+    end
+    render :json => @api_poll.to_hash
+  end
+
+
   # GET /api/polls
   # GET /api/polls.json
   def index
-    @api_polls = Poll.all
+    @api_polls = Poll.where(status: 1)
     # poll_options = PollOption.where(poll: @api_poll)
     
     render :json => @api_polls.map{|x| x.to_hash }
@@ -39,7 +59,6 @@ class Api::PollsController < ApplicationController
     # po3 = PollOption.create(:description => "des3", :poll_order => 3, :poll => p)
     # po4 = PollOption.create(:description => "des4", :poll_order => 4, :poll => p)
     @api_poll = Poll.create(title: params[:title], chain: 'juno')
-    # binding.pry
     render :json => @api_poll.to_hash
     
   end
@@ -57,8 +76,11 @@ class Api::PollsController < ApplicationController
   # DELETE /api/polls/1
   # DELETE /api/polls/1.json
   def destroy
+    binding.pry
     @api_poll.destroy
+    render :json => @api_poll.to_hash
   end
+
 
   private
     # Use callbacks to share common setup or constraints between actions.
