@@ -26,6 +26,34 @@ class PollCampaign
     }
   end
 
+  def results
+    total_weighted_votes = poll_responses.map{|x| 
+        x.total_tokens_at_snapshot.present? ? x.total_tokens_at_snapshot : 0
+      }.reduce(:+)
+    results = {
+      total_votes: poll_responses.count, 
+      total_weighted_votes: total_weighted_votes, 
+    }
+    poll_option_results = []
+    poll.poll_options.where(status: 1).each do |poll_option|
+      poll_option_descrpition = poll_option.description
+      poll_responses = self.poll_responses.where(poll_option: poll_option)
+      vote_count = poll_responses.count
+      weighted_votes = poll_responses.map{|x| 
+        x.total_tokens_at_snapshot.present? ? x.total_tokens_at_snapshot : 0
+      }.reduce(:+)
+      weighted_percent = ((weighted_votes.to_f/total_weighted_votes.to_f)*100).round(2)
+      hash = {description: poll_option_descrpition, 
+        vote_count: vote_count, 
+        weighted_votes: weighted_votes,
+        weighted_percent: weighted_percent
+      }
+      poll_option_results << hash
+    end
+    results[:poll_options] = poll_option_results
+    results
+  end
+
   def to_user_hash
     {
       id: id.to_s,
@@ -42,7 +70,7 @@ class PollCampaign
   def generate_data
     100.times do |index|
       crypto_address = (0...50).map { ('a'..'z').to_a[rand(26)] }.join
-      selected_poll_option = poll.poll_options.shuffle.first
+      selected_poll_option = poll.poll_options.where(status: 1).shuffle.first
       total_tokens_at_snapshot = 1000 + rand(30000)
       #crypto_address,total_tokens_at_snapshot, poll_option
       pr = PollResponse.create(

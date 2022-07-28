@@ -9,6 +9,18 @@ class Poll
   has_many :poll_options
   has_many :poll_campaigns
   
+  def to_detail_hash
+    {
+      id: self.id.to_s, 
+      title: self.title,
+      chain: self.chain,
+      duration: self.duration,
+      status: self.status,
+      poll_options: poll_options.where(status: 1).map{|x| x.to_hash },
+      poll_campaigns: poll_campaigns.map{|x| x.to_hash.merge({:results => x.results}) }
+    }
+  end
+
   def to_hash
     {
       id: self.id.to_s, 
@@ -20,6 +32,8 @@ class Poll
       poll_campaigns: poll_campaigns.map{|x| x.to_hash }
     }
   end
+
+  
 
   def to_user_hash
     {

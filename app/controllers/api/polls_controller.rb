@@ -14,7 +14,7 @@ class Api::PollsController < ApplicationController
       @api_poll.is_current_poll = false if @api_poll
     end
     if @api_poll
-      render :json => @api_poll.to_user_hash
+      render :json => @api_poll.to_user_hash.merge({:results => @api_poll.results})
     else
       render :json => {error: "No upcoming"}
     end
@@ -46,7 +46,7 @@ class Api::PollsController < ApplicationController
   def show
     @api_poll = Poll.find(params[:id])
     # poll_options = PollOption.where(poll: @api_poll)
-    render :json => @api_poll.to_hash
+    render :json => @api_poll.to_detail_hash
   end
 
   # POST /api/polls
@@ -76,7 +76,6 @@ class Api::PollsController < ApplicationController
   # DELETE /api/polls/1
   # DELETE /api/polls/1.json
   def destroy
-    binding.pry
     @api_poll.destroy
     render :json => @api_poll.to_hash
   end
