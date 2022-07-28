@@ -32,6 +32,8 @@ class Poll
     }
   end
 
+  
+
   # def with_poll_options
   #   poll_options
   # end

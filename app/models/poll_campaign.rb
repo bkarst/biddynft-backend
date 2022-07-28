@@ -22,6 +22,7 @@ class PollCampaign
       poll_responses: poll_responses.map{ |x| x.to_hash },
       is_next_poll: is_next_poll,
       is_current_poll: is_current_poll,
+      total_responses: poll_responses.count,
     }
   end
 
@@ -36,6 +37,21 @@ class PollCampaign
       is_next_poll: is_next_poll,
       is_current_poll: is_current_poll,
     }
+  end
+
+  def generate_data
+    100.times do |index|
+      crypto_address = (0...50).map { ('a'..'z').to_a[rand(26)] }.join
+      selected_poll_option = poll.poll_options.shuffle.first
+      total_tokens_at_snapshot = 1000 + rand(30000)
+      #crypto_address,total_tokens_at_snapshot, poll_option
+      pr = PollResponse.create(
+        poll_campaign: self, 
+        crypto_address: crypto_address, 
+        poll_option: selected_poll_option, 
+        total_tokens_at_snapshot: total_tokens_at_snapshot
+        )
+    end
   end
 
 end
