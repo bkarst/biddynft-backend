@@ -17,6 +17,7 @@ class PollCampaign
       duration: duration, 
       chain: chain, 
       start_time: start_time,
+      end_time: end_time,
       id: id.to_s,
       poll_id: poll.id.to_s,
       poll_responses: poll_responses.map{ |x| x.to_hash },

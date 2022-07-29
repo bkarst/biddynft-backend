@@ -18,8 +18,7 @@ class Api::PollCampaignsController < ApplicationController
   def create
 
     poll = Poll.find(params[:poll_id])
-  
-
+    
     conflicts = PollCampaign.where(status: 1, :start_time.lte => Time.parse(params[:start_time]), :end_time.gte => Time.parse(params[:start_time]))
 
     if conflicts.count === 0
@@ -27,7 +26,7 @@ class Api::PollCampaignsController < ApplicationController
       start_time: params[:start_time] )
       @api_poll_campaign.end_time = @api_poll_campaign.start_time + @api_poll_campaign.duration.hours
     end
-
+    
     if conflicts.count > 0
       render json: {error: "date conflict"}
     elsif @api_poll_campaign && @api_poll_campaign.save
