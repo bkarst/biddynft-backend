@@ -43,7 +43,10 @@ class PollCampaign
       weighted_votes = poll_responses.map{|x| 
         x.total_tokens_at_snapshot.present? ? x.total_tokens_at_snapshot : 0
       }.reduce(:+)
-      weighted_percent = ((weighted_votes.to_f/total_weighted_votes.to_f)*100).round
+      weighted_percent = 0
+      if weighted_votes
+        weighted_percent = ((weighted_votes.to_f/total_weighted_votes.to_f)*100).round
+      end
       hash = {description: poll_option_descrpition, 
         vote_count: vote_count, 
         weighted_votes: weighted_votes,
