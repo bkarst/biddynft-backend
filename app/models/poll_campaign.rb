@@ -27,9 +27,18 @@ class PollCampaign
     }
   end
 
-  def results
+  def results(prelim=true)
+    if Time.now < end_time
+      prelim = true
+    else 
+      prelim = false
+    end
     total_weighted_votes = poll_responses.map{|x| 
-        x.total_tokens_at_snapshot.present? ? x.total_tokens_at_snapshot : 0
+        if prelim
+          x.voting_balance.present? ? x.voting_balance : 0
+        else 
+          x.total_tokens_at_snapshot.present? ? x.total_tokens_at_snapshot : 0
+        end
       }.reduce(:+)
     results = {
       total_votes: poll_responses.count, 
@@ -38,13 +47,19 @@ class PollCampaign
     poll_option_results = []
     poll.poll_options.where(status: 1).each do |poll_option|
       poll_option_descrpition = poll_option.description
+      
       poll_responses = self.poll_responses.where(poll_option: poll_option)
       vote_count = poll_responses.count
       weighted_votes = poll_responses.map{|x| 
+      if prelim
+        x.voting_balance.present? ? x.voting_balance : 0
+      else 
         x.total_tokens_at_snapshot.present? ? x.total_tokens_at_snapshot : 0
+      end
       }.reduce(:+)
       weighted_percent = 0
-      if weighted_votes
+      if weighted_votes && total_weighted_votes && total_weighted_votes > 0
+        
         weighted_percent = ((weighted_votes.to_f/total_weighted_votes.to_f)*100).round
       end
       hash = {description: poll_option_descrpition, 
@@ -81,7 +96,8 @@ class PollCampaign
         poll_campaign: self, 
         crypto_address: crypto_address, 
         poll_option: selected_poll_option, 
-        total_tokens_at_snapshot: total_tokens_at_snapshot
+        total_tokens_at_snapshot: total_tokens_at_snapshot,
+        voting_balance: total_tokens_at_snapshot
         )
     end
   end

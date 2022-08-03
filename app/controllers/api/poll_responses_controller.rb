@@ -18,13 +18,14 @@ class Api::PollResponsesController < ApplicationController
     @api_poll_response = PollResponse.new(
       crypto_address: params[:address],
       poll_option_id: params[:poll_option_id],
-      poll_campaign_id: params[:poll_campaign_id]
+      poll_campaign_id: params[:poll_campaign_id],
+      voting_balance: params[:voting_balance]
     )
     
     active_poll = PollCampaign.where(
       :start_time.lte => Time.now, 
       :end_time.gte => Time.now, 
-      id: params[:poll_campaign_id]
+      id: params[:poll_campaign_id],
     ).first
     
     
@@ -36,6 +37,7 @@ class Api::PollResponsesController < ApplicationController
 
     if @previous_response
       @previous_response.poll_option_id = params[:poll_option_id]
+      @previous_response.voting_balance = params[:voting_balance]
       @api_poll_response = @previous_response
     end
 
