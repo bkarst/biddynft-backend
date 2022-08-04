@@ -4,8 +4,8 @@ production:
     # Defines the default client. (required)
     default:
       # Mongoid can connect to a URI accepted by the driver:
-      uri: mongodb+srv://bkarst:0011223344@cluster0.swpg9.mongodb.net/biddydbprod?retryWrites=true&w=majority
-
+      # uri: mongodb+srv://bkarst:0011223344@cluster0.swpg9.mongodb.net/biddydbprod?retryWrites=true&w=majority
+      uri: <%= ENV["MONGO_URI"] %>
       # Otherwise define the parameters separately.
       # This defines the name of the default database that Mongoid can connect to.
       # (required).
