@@ -1,12 +1,30 @@
 class Api::PollCampaignsController < ApplicationController
-  before_action :set_api_poll_campaign, only: %i[ show update destroy ]
+  before_action :set_api_poll_campaign, only: %i[ snapshot show update destroy ]
   skip_before_action :verify_authenticity_token
+
+  def record_snapshot
+    params[:snapshot_balances].each do |snapshot|
+      poll_response = PollResponse.find(snapshot[:id])
+      poll_response.total_tokens_at_snapshot = snapshot[:total_tokens_at_snapshot]
+      poll_response.save
+    end
+    render json: {}
+  end
+
+  def snapshot
+    
+    # @api_poll_campaign
+    # @api_poll_campaign.
+    render json: @api_poll_campaign.to_hash
+  end
 
   # GET /api/poll_campaigns
   # GET /api/poll_campaigns.json
   def index
     @api_poll_campaigns = PollCampaign.all
   end
+
+
 
   # GET /api/poll_campaigns/1
   # GET /api/poll_campaigns/1.json
@@ -18,7 +36,6 @@ class Api::PollCampaignsController < ApplicationController
   def create
 
     poll = Poll.find(params[:poll_id])
-    
     conflicts = PollCampaign.where(status: 1, :start_time.lte => Time.parse(params[:start_time]), :end_time.gte => Time.parse(params[:start_time]))
 
     if conflicts.count === 0

@@ -15,6 +15,7 @@ class Api::PollResponsesController < ApplicationController
   # POST /api/poll_responses
   # POST /api/poll_responses.json
   def create
+
     @api_poll_response = PollResponse.new(
       crypto_address: params[:address],
       poll_option_id: params[:poll_option_id],
@@ -28,8 +29,6 @@ class Api::PollResponsesController < ApplicationController
       id: params[:poll_campaign_id],
     ).first
     
-    
-
     @previous_response = PollResponse.where(
       crypto_address: params[:address],
       poll_campaign_id: params[:poll_campaign_id]
@@ -40,7 +39,6 @@ class Api::PollResponsesController < ApplicationController
       @previous_response.voting_balance = params[:voting_balance]
       @api_poll_response = @previous_response
     end
-
 
     #check if voted already, 
     #check to see if the timestamp is within poll start and end time. 

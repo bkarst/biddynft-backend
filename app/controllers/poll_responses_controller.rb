@@ -23,7 +23,6 @@ class PollResponsesController < ApplicationController
 
   # POST /poll_responses or /poll_responses.json
   def create
-    binding.pry
     @poll_response = PollResponse.new(poll_response_params)
       if @poll_response.save
         render json: @poll_response
