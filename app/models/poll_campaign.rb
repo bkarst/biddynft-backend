@@ -12,6 +12,10 @@ class PollCampaign
   belongs_to :poll
   has_many :poll_responses
 
+  def self.execute_snapshots
+    puts "Executing Snapshots"
+  end
+
   def to_hash
     {
       duration: duration, 
