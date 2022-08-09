@@ -217,6 +217,8 @@ GEM
     turbolinks-source (5.2.0)
     tzinfo (2.0.5)
       concurrent-ruby (~> 1.0)
+    uglifier (4.2.0)
+      execjs (>= 0.3.0, < 3)
     unf (0.1.4)
       unf_ext
     unf_ext (0.0.8.2)
@@ -252,6 +254,7 @@ DEPENDENCIES
   spring-watcher-listen (~> 2.0.0)
   turbolinks (~> 5)
   tzinfo-data
+  uglifier
 
 RUBY VERSION
    ruby 2.7.6p219
