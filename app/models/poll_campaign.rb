@@ -9,11 +9,34 @@ class PollCampaign
   field :chain, type: String
   field :start_time, type: DateTime
   field :end_time, type: DateTime
+  field :snapshot_taken_at, type: DateTime
   belongs_to :poll
   has_many :poll_responses
 
   def self.execute_snapshots
-    puts "Executing Snapshots"
+    # poll_campaign = PollCampaign.where(status: 1).first
+    poll_campaign = PollCampaign.where(snapshot_taken_at: nil, status: 1, :end_time.lte  => Time.now).first
+    if poll_campaign.blank?
+      return false
+    end
+    binding.pry
+    poll_campaign.poll_responses.each do |poll_response|
+      encoded   = Base64.urlsafe_encode64(
+        '{"balance":{"address":"' + poll_response.crypto_address + '"}}' )
+      string = "https://api.juno.pupmos.network/cosmwasm/wasm/v1/contract/juno1rdw3gumdz7zyjn2pev9ugxs765xlv6vtv6g3jt2lqw580zrchvjs66daca/smart/" + encoded
+      binding.pry
+      begin
+      response = RestClient.get(string)
+      parsed_response = JSON.parse(response)
+      balance = parsed_response["data"]["balance"]
+      poll_response.total_tokens_at_snapshot = balance
+      poll_response.save
+      rescue
+        puts "Error in fetching balance"
+      end
+    end
+    poll_campaign.snapshot_taken_at = Time.now
+    poll_campaign.save
   end
 
   def to_hash
