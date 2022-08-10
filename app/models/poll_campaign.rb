@@ -13,18 +13,18 @@ class PollCampaign
   belongs_to :poll
   has_many :poll_responses
 
+  CW_20_CONTRACT_ADDRESS = 'juno1rdw3gumdz7zyjn2pev9ugxs765xlv6vtv6g3jt2lqw580zrchvjs66daca'
+
   def self.execute_snapshots
     # poll_campaign = PollCampaign.where(status: 1).first
     poll_campaign = PollCampaign.where(snapshot_taken_at: nil, status: 1, :end_time.lte  => Time.now).first
     if poll_campaign.blank?
       return false
     end
-    binding.pry
     poll_campaign.poll_responses.each do |poll_response|
       encoded   = Base64.urlsafe_encode64(
         '{"balance":{"address":"' + poll_response.crypto_address + '"}}' )
-      string = "https://api.juno.pupmos.network/cosmwasm/wasm/v1/contract/juno1rdw3gumdz7zyjn2pev9ugxs765xlv6vtv6g3jt2lqw580zrchvjs66daca/smart/" + encoded
-      binding.pry
+      string = "https://api.juno.pupmos.network/cosmwasm/wasm/v1/contract/#{CW_20_CONTRACT_ADDRESS}/smart/" + encoded
       begin
       response = RestClient.get(string)
       parsed_response = JSON.parse(response)
