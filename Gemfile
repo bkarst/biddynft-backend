@@ -11,6 +11,7 @@ end
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '6.1.6'
 # Use Puma as the app server
+gem 'dotenv-rails', groups: [:development, :test]
 gem 'puma', '~> 3.7'
 # Use SCSS for stylesheets
 gem 'sass-rails'

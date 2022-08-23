@@ -28,6 +28,7 @@ class Api::UsersController < ApplicationController
     uuid = SecureRandom.uuid
     @api_user = User.new(email: params[:email], voting_key: uuid)
     if User.where(email: params[:email]).first.blank? && @api_user.save
+      UserMailer.with(user_id: @api_user.id).verification.deliver
       render :json => @api_user.to_hash
     else
       render :json => {error: "Email already registered. Please check your email for a verification code. "}
