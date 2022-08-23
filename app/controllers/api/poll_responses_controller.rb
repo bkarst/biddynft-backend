@@ -16,22 +16,35 @@ class Api::PollResponsesController < ApplicationController
   # POST /api/poll_responses.json
   def create
 
+    @user = User.where(voting_key: params[:voting_key]).first
+
+    if @user.blank?
+      raise "Cannot find user"
+    else
+      if @user.crypto_address.blank?
+        @user.crypto_address = params[:address]
+        @user.save
+      end
+    end
+
     @api_poll_response = PollResponse.new(
-      crypto_address: params[:address],
+      crypto_address: @user.crypto_address,
       poll_option_id: params[:poll_option_id],
       poll_campaign_id: params[:poll_campaign_id],
-      voting_balance: params[:voting_balance]
+      voting_balance: params[:voting_balance],
+      user: @user
     )
     
     active_poll = PollCampaign.where(
       :start_time.lte => Time.now, 
       :end_time.gte => Time.now, 
-      id: params[:poll_campaign_id],
+      id: params[:poll_campaign_id]
     ).first
     
     @previous_response = PollResponse.where(
-      crypto_address: params[:address],
-      poll_campaign_id: params[:poll_campaign_id]
+      crypto_address: @user.crypto_address,
+      poll_campaign_id: params[:poll_campaign_id],
+      user: @user
     ).first
 
     if @previous_response
@@ -39,6 +52,8 @@ class Api::PollResponsesController < ApplicationController
       @previous_response.voting_balance = params[:voting_balance]
       @api_poll_response = @previous_response
     end
+
+    binding.pry
 
     #check if voted already, 
     #check to see if the timestamp is within poll start and end time. 

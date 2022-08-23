@@ -3,6 +3,7 @@ class PollResponse
   include Mongoid::Timestamps
   belongs_to :poll_option
   belongs_to :poll_campaign
+  belongs_to :user
   field :crypto_address, type: String
   field :total_tokens_at_snapshot, type: Integer
   field :voting_balance, type: Integer
