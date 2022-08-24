@@ -1,6 +1,8 @@
 class Api::PollCampaignsController < ApplicationController
+  include SharedMethods
   before_action :set_api_poll_campaign, only: %i[ snapshot show update destroy ]
   skip_before_action :verify_authenticity_token
+  before_action :require_admin, only: %i[ index create update destroy]
 
   def record_snapshot
     params[:snapshot_balances].each do |snapshot|

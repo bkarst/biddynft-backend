@@ -26,8 +26,14 @@ class Api::UsersController < ApplicationController
   # POST /api/users or /api/users.json
   def create
     uuid = SecureRandom.uuid
-    @api_user = User.new(email: params[:email], voting_key: uuid)
-    if User.where(email: params[:email]).first.blank? && @api_user.save
+    @api_user = User.where(email: params[:email]).first
+    if @api_user.blank?
+      @api_user = User.new(email: params[:email], voting_key: uuid)
+    else 
+      @api_user.voting_key = uuid
+    end
+    
+    if @api_user.save
       UserMailer.with(user_id: @api_user.id).verification.deliver
       render :json => @api_user.to_hash
     else

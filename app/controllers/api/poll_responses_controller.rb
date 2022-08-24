@@ -1,6 +1,8 @@
 class Api::PollResponsesController < ApplicationController
   before_action :set_api_poll_response, only: %i[ show update destroy ]
   skip_before_action :verify_authenticity_token
+  
+
   # GET /api/poll_responses
   # GET /api/poll_responses.json
   def index
@@ -52,8 +54,6 @@ class Api::PollResponsesController < ApplicationController
       @previous_response.voting_balance = params[:voting_balance]
       @api_poll_response = @previous_response
     end
-
-    binding.pry
 
     #check if voted already, 
     #check to see if the timestamp is within poll start and end time. 

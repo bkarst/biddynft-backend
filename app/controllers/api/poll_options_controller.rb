@@ -1,6 +1,9 @@
 class Api::PollOptionsController < ApplicationController
+  include SharedMethods
+  
   skip_before_action :verify_authenticity_token
   before_action :set_api_poll_option, only: %i[ show edit update destroy inactivate ]
+  before_action :require_admin, only: %i[ inactivate index destroy create update]
 
   # GET /api/poll_options or /api/poll_options.json
   def index
@@ -68,4 +71,7 @@ class Api::PollOptionsController < ApplicationController
     def api_poll_option_params
       params.fetch(:api_poll_option, {})
     end
+
+    
+
 end

@@ -1,6 +1,9 @@
 class Api::PollsController < ApplicationController
+  include SharedMethods
   skip_before_action :verify_authenticity_token
   before_action :set_api_poll, only: %i[ show update destroy inactivate]
+  
+  before_action :require_admin, only: %i[ inactivate index destroy create update]
 
 
   def current

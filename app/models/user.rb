@@ -2,6 +2,8 @@ class User
   include Mongoid::Document
   include Mongoid::Timestamps
 
+  ADMIN_EMAILS = ['ben.karst@gmail.com', 'blackholeonjuno@gmail.com']
+
   field :email, type: String
   field :latest_ip, type: String
   field :voting_key, type: String
