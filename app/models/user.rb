@@ -9,6 +9,7 @@ class User
   field :voting_key, type: String
   field :crypto_address, type: String
   index({ email: 1 }, { unique: true, name: "email_index" })
+  index({ crypto_address: 1 }, { unique: true, name: "crypto_address_index" })
   # field :duration, type: Integer
   
   def to_hash

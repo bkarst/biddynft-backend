@@ -24,6 +24,10 @@ class Api::PollResponsesController < ApplicationController
       raise "Cannot find user"
     else
       if @user.crypto_address.blank?
+        @other_address_holder = User.where(crypto_address: params[:address]).first
+        if @other_address_holder.present?
+          raise "This address has already been registered with another email."
+        end
         @user.crypto_address = params[:address]
         @user.save
       end

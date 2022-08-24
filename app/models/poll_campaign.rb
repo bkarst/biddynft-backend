@@ -74,7 +74,8 @@ class PollCampaign
     poll_option_results = []
     poll.poll_options.where(status: 1).each do |poll_option|
       poll_option_descrpition = poll_option.description
-      
+      poll_option_id = poll_option.id.to_s
+      poll_option_thumbnail_url = poll_option.thumbnail_url
       poll_responses = self.poll_responses.where(poll_option: poll_option)
       vote_count = poll_responses.count
       weighted_votes = poll_responses.map{|x| 
@@ -89,13 +90,19 @@ class PollCampaign
         
         weighted_percent = ((weighted_votes.to_f/total_weighted_votes.to_f)*100).round
       end
-      hash = {description: poll_option_descrpition, 
+      hash = {
+        description: poll_option_descrpition, 
+        id: poll_option_id,
+        thumbnail_url: poll_option_thumbnail_url,
         vote_count: vote_count, 
         weighted_votes: weighted_votes,
         weighted_percent: weighted_percent
       }
       poll_option_results << hash
     end
+    # poll_option_results.sort{|x| x.}
+    poll_option_results = poll_option_results.sort_by { |x| x[:weighted_percent] }
+    poll_option_results = poll_option_results.reverse
     results[:poll_options] = poll_option_results
     results
   end
