@@ -34,7 +34,7 @@ class Api::UsersController < ApplicationController
     end
     
     if @api_user.save
-      UserMailer.with(user_id: @api_user.id).verification.deliver
+      UserMailer.with(user_id: @api_user.id).verification.deliver!
       render :json => @api_user.to_hash
     else
       render :json => {error: "Email already registered. Please check your email for a verification code. "}

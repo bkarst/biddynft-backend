@@ -7,7 +7,6 @@ git_source(:github) do |repo_name|
   "https://github.com/#{repo_name}.git"
 end
 
-
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '6.1.6'
 # Use Puma as the app server
@@ -19,6 +18,7 @@ gem 'mongoid'
 gem 'rack-cors'
 gem 'rest-client'
 gem 'coffee-rails'
+gem 'postmark-rails'
 
 gem 'pry'
 # Use Uglifier as compressor for JavaScript assets
